@@ -1,0 +1,8 @@
+{
+  "name": "DeutschRay App",
+  "description": "Eine erstklassige Anwendung zur Konvertierung von deutschem Text in hochwertige Sprache mit Gemini 2.5 Flash.",
+  "requestFramePermissions": [
+    "microphone",
+    "camera"
+  ]
+}

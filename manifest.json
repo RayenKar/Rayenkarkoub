@@ -1,0 +1,22 @@
+{
+  "name": "Deutsch-KI Super App",
+  "short_name": "Deutsch-KI",
+  "description": "High-Fidelity Neural Speech Synthesis",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020408",
+  "theme_color": "#020408",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/8804/8804369.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/8804/8804369.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
