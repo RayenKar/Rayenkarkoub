@@ -1,4 +1,3 @@
-
 export function decode(base64: string): Uint8Array {
   const binaryString = atob(base64);
   const len = binaryString.length;
@@ -31,6 +30,7 @@ export async function decodeAudioData(
   for (let channel = 0; channel < numChannels; channel++) {
     const channelData = buffer.getChannelData(channel);
     for (let i = 0; i < frameCount; i++) {
+      // Convert Int16 (-32768 to 32767) to Float32 (-1.0 to 1.0)
       channelData[i] = dataInt16[i * numChannels + channel] / 32768.0;
     }
   }
@@ -56,7 +56,7 @@ export function createWavBlob(pcmData: Uint8Array, sampleRate: number): Blob {
   view.setUint32(16, 16, true);
   // sample format (1 is PCM)
   view.setUint16(20, 1, true);
-  // channel count
+  // channel count (Mono = 1)
   view.setUint16(22, 1, true);
   // sample rate
   view.setUint32(24, sampleRate, true);

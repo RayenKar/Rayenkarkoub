@@ -44,15 +44,50 @@ const App: React.FC = () => {
         }
       `}</style>
 
-      {/* Immersive Background System */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[#020408]"></div>
-        <div className="absolute inset-0 noise-bg opacity-30 mix-blend-overlay"></div>
-        
-        {/* Ambient Glows */}
-        <div className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-indigo-600/10 blur-[120px] rounded-full mix-blend-screen animate-pulse duration-[8000ms]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-cyan-600/10 blur-[120px] rounded-full mix-blend-screen"></div>
-        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 w-[60vw] h-[20vw] bg-purple-900/5 blur-[100px] rounded-full"></div>
+      {/* Modern Premium Background (Aurora / Mesh Gradient + Mixed Elements) */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden bg-[#020617]">
+        {/* Deep Atmospheric Glows (Aurora Effect) */}
+        <div className="absolute top-[-20%] right-[-10%] w-[70vw] h-[70vw] bg-cyan-500/10 blur-[150px] rounded-full mix-blend-screen animate-pulse" style={{ animationDuration: '10s' }}></div>
+        <div className="absolute bottom-[-20%] left-[-10%] w-[60vw] h-[60vw] bg-indigo-600/10 blur-[150px] rounded-full mix-blend-screen animate-pulse" style={{ animationDuration: '15s', animationDelay: '2s' }}></div>
+        <div className="absolute top-[20%] left-[20%] w-[50vw] h-[50vw] bg-blue-800/10 blur-[120px] rounded-full mix-blend-screen animate-pulse" style={{ animationDuration: '12s', animationDelay: '5s' }}></div>
+
+        {/* 1. Stars / Deep Space */}
+        <div className="absolute inset-0" style={{
+          backgroundImage: `
+            radial-gradient(1px 1px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+            radial-gradient(1px 1px at 40px 70px, #ffffff, rgba(0,0,0,0)),
+            radial-gradient(1px 1px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+            radial-gradient(1px 1px at 160px 120px, #ffffff, rgba(0,0,0,0)),
+            radial-gradient(1.5px 1.5px at 130px 180px, #ffffff, rgba(0,0,0,0)),
+            radial-gradient(1.5px 1.5px at 60px 150px, #ffffff, rgba(0,0,0,0))
+          `,
+          backgroundSize: '200px 200px',
+          opacity: 0.15
+        }}></div>
+
+        {/* 2. Bokeh Lights */}
+        <div className="absolute top-[30%] left-[20%] w-32 h-32 bg-cyan-500/15 blur-[20px] rounded-full mix-blend-screen"></div>
+        <div className="absolute bottom-[40%] right-[30%] w-48 h-48 bg-blue-500/15 blur-[30px] rounded-full mix-blend-screen"></div>
+        <div className="absolute top-[60%] left-[60%] w-24 h-24 bg-indigo-500/15 blur-[15px] rounded-full mix-blend-screen"></div>
+        <div className="absolute bottom-[20%] left-[40%] w-40 h-40 bg-sky-500/15 blur-[25px] rounded-full mix-blend-screen"></div>
+
+        {/* 3. Light Tunnel (Subtle perspective lines) */}
+        <div className="absolute inset-0 opacity-[0.15]" style={{
+          background: 'repeating-linear-gradient(90deg, transparent, transparent 100px, rgba(14, 165, 233, 0.2) 100px, rgba(14, 165, 233, 0.2) 101px)',
+          transform: 'perspective(500px) rotateX(75deg)',
+          transformOrigin: 'bottom'
+        }}></div>
+        <div className="absolute inset-0 opacity-[0.15]" style={{
+          background: 'repeating-linear-gradient(90deg, transparent, transparent 100px, rgba(79, 70, 229, 0.2) 100px, rgba(79, 70, 229, 0.2) 101px)',
+          transform: 'perspective(500px) rotateX(75deg) rotateY(10deg)',
+          transformOrigin: 'bottom'
+        }}></div>
+
+        {/* Modern Subtle Grid */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_10%,transparent_100%)]"></div>
+
+        {/* Premium Noise Texture */}
+        <div className="absolute inset-0 noise-bg opacity-[0.04] mix-blend-overlay"></div>
       </div>
 
       {/* Artistic Header */}
@@ -110,66 +145,6 @@ const App: React.FC = () => {
         </div>
 
         <VoiceStudio />
-
-        {/* --- DOWNLOAD PLATFORMS SECTION --- */}
-        <section className="max-w-7xl mx-auto mt-24 mb-10">
-          <div className="relative p-8 rounded-3xl border border-white/10 bg-[#0a0c10]/50 backdrop-blur-sm overflow-hidden">
-             <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-600/10 blur-[100px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
-             
-             <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-                <div className="text-center md:text-left">
-                  <h3 className="text-2xl font-black text-white tracking-tight mb-2">Multi-Platform Access</h3>
-                  <p className="text-sm text-slate-400 max-w-md">
-                    Installieren Sie die Deutsch-KI Native App für maximale Performance und Offline-Funktionalität.
-                  </p>
-                </div>
-
-                <div className="flex flex-wrap justify-center gap-4">
-                  {/* Android Button */}
-                  <button 
-                    onClick={handleInstall}
-                    className="group relative flex items-center gap-3 bg-[#1a1d26] hover:bg-[#232733] border border-white/10 hover:border-emerald-500/50 px-5 py-3 rounded-xl transition-all duration-300"
-                  >
-                    <div className="w-8 h-8 flex items-center justify-center bg-emerald-500/10 rounded-lg group-hover:bg-emerald-500/20 text-emerald-400 transition-colors">
-                      <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1527-.5676.416.416 0 00-.5676.1527l-2.0294 3.513c-2.2683-1.033-4.8468-1.033-7.115 0l-2.0294-3.513a.416.416 0 00-.5676-.1527.416.416 0 00-.1527.5676l1.9973 3.4592c-4.6653 2.548-5.3228 7.8468-5.3228 9.3904h24.2676c0-1.5435-.6575-6.8424-5.3228-9.3904"/></svg>
-                    </div>
-                    <div className="text-left">
-                       <div className="text-[9px] uppercase tracking-wider text-slate-500 font-bold group-hover:text-emerald-400">Download for</div>
-                       <div className="text-sm font-bold text-white">Android</div>
-                    </div>
-                  </button>
-
-                  {/* Windows Button */}
-                  <button 
-                    onClick={handleInstall}
-                    className="group relative flex items-center gap-3 bg-[#1a1d26] hover:bg-[#232733] border border-white/10 hover:border-blue-500/50 px-5 py-3 rounded-xl transition-all duration-300"
-                  >
-                    <div className="w-8 h-8 flex items-center justify-center bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 text-blue-400 transition-colors">
-                      <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
-                    </div>
-                    <div className="text-left">
-                       <div className="text-[9px] uppercase tracking-wider text-slate-500 font-bold group-hover:text-blue-400">Download for</div>
-                       <div className="text-sm font-bold text-white">Windows</div>
-                    </div>
-                  </button>
-
-                  {/* iPhone Button */}
-                  <button 
-                    onClick={handleIOSInstall}
-                    className="group relative flex items-center gap-3 bg-[#1a1d26] hover:bg-[#232733] border border-white/10 hover:border-gray-400 px-5 py-3 rounded-xl transition-all duration-300"
-                  >
-                    <div className="w-8 h-8 flex items-center justify-center bg-gray-500/10 rounded-lg group-hover:bg-gray-500/20 text-gray-300 transition-colors">
-                      <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.21-1.98 1.07-3.12-1.1.05-2.52.76-3.35 1.73-.72.85-1.36 2.16-1.18 3.16 1.32.1 2.7-.93 3.46-1.77"/></svg>
-                    </div>
-                    <div className="text-left">
-                       <div className="text-[9px] uppercase tracking-wider text-slate-500 font-bold group-hover:text-gray-300">Download for</div>
-                       <div className="text-sm font-bold text-white">iPhone</div>
-                    </div>
-                  </button>
-                </div>
-             </div>
-          </div>
-        </section>
 
       </main>
 
