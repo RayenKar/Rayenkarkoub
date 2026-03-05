@@ -483,7 +483,7 @@ export function VoiceStudio() {
         }
       }
 
-      let combinedPcmData = new Uint8Array(0)
+      let combinedMp3Chunks: Uint8Array[] = []
 
       for (let i = 0; i < finalChunks.length; i++) {
         const chunk = finalChunks[i]
@@ -492,26 +492,29 @@ export function VoiceStudio() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             text: chunk,
-            voiceName: selectedVoice.geminiVoice,
-            persona: selectedVoice.persona,
+            voice: selectedVoice.openaiVoice,
+            speed: 1.0,
           }),
         })
         const data = await response.json()
         if (!response.ok) throw new Error(data.error)
 
-        const pcmData = decodeBase64(data.audio)
-        const newCombined = new Uint8Array(
-          combinedPcmData.length + pcmData.length
-        )
-        newCombined.set(combinedPcmData)
-        newCombined.set(pcmData, combinedPcmData.length)
-        combinedPcmData = newCombined
+        const mp3Data = decodeBase64(data.audio)
+        combinedMp3Chunks.push(mp3Data)
       }
 
-      const combinedBase64 = encodeBase64(combinedPcmData)
+      const totalLength = combinedMp3Chunks.reduce((acc, c) => acc + c.length, 0)
+      const combinedMp3 = new Uint8Array(totalLength)
+      let offset = 0
+      for (const chunk of combinedMp3Chunks) {
+        combinedMp3.set(chunk, offset)
+        offset += chunk.length
+      }
+
+      const combinedBase64 = encodeBase64(combinedMp3)
       setLastAudioBase64(combinedBase64)
 
-      const audioBuffer = await decodeAudioData(combinedPcmData, ctx, 24000, 1)
+      const audioBuffer = await ctx.decodeAudioData(combinedMp3.buffer.slice(0))
       currentAudioBufferRef.current = audioBuffer
 
       const duration = audioBuffer.duration

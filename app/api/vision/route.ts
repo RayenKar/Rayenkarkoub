@@ -1,16 +1,8 @@
-import { GoogleGenAI } from "@google/genai"
+import { generateText } from "ai"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(request: NextRequest) {
   try {
-    const apiKey = process.env.GEMINI_API_KEY
-    if (!apiKey) {
-      return NextResponse.json(
-        { error: "GEMINI_API_KEY is not configured." },
-        { status: 500 }
-      )
-    }
-
     const { image } = await request.json()
 
     if (!image) {
@@ -20,20 +12,26 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const ai = new GoogleGenAI({ apiKey })
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: {
-        parts: [
-          { inlineData: { mimeType: "image/jpeg", data: image } },
-          {
-            text: "OCR: Extrahiere den gesamten Text exakt auf Deutsch.",
-          },
-        ],
-      },
+    const result = await generateText({
+      model: "anthropic/claude-opus-4.6",
+      messages: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "image",
+              image: `data:image/jpeg;base64,${image}`,
+            },
+            {
+              type: "text",
+              text: "OCR: Extrahiere den gesamten sichtbaren Text aus diesem Bild. Gib nur den extrahierten Text aus, ohne Erklärungen oder Formatierung. Behalte die Originalsprache bei.",
+            },
+          ],
+        },
+      ],
     })
 
-    return NextResponse.json({ text: response.text || "" })
+    return NextResponse.json({ text: result.text || "" })
   } catch (error: any) {
     return NextResponse.json(
       { error: error.message || "Vision fehlgeschlagen." },

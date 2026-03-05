@@ -1,17 +1,9 @@
-import { GoogleGenAI } from "@google/genai"
+import { generateText } from "ai"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(request: NextRequest) {
   try {
-    const apiKey = process.env.GEMINI_API_KEY
-    if (!apiKey) {
-      return NextResponse.json(
-        { error: "GEMINI_API_KEY is not configured." },
-        { status: 500 }
-      )
-    }
-
-    const { text } = await request.json()
+    const { text, targetLang } = await request.json()
 
     if (!text?.trim()) {
       return NextResponse.json(
@@ -20,13 +12,22 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const ai = new GoogleGenAI({ apiKey })
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: `Translate German to Arabic. Output only the Arabic translation.\n\n${text}`,
+    const lang = targetLang || "Arabic"
+
+    const result = await generateText({
+      model: "anthropic/claude-opus-4.6",
+      system: `You are a professional translator similar to Reverso Context. Translate the given German text to ${lang}. 
+
+Rules:
+- Output ONLY the translation, nothing else
+- Preserve the original tone and register
+- Use natural, fluent ${lang} (not literal word-by-word translation)
+- Keep proper nouns unchanged
+- If the text contains idioms, translate their meaning, not their literal words`,
+      prompt: text.trim(),
     })
 
-    return NextResponse.json({ translation: response.text?.trim() || "" })
+    return NextResponse.json({ translation: result.text?.trim() || "" })
   } catch (error: any) {
     return NextResponse.json(
       { error: error.message || "Translation fehlgeschlagen." },
