@@ -1,6 +1,6 @@
 {
-  "name": "Deutschay App",
-  "description": "Eine erstklassige Anwendung zur Konvertierung von deutschem Text in hochwertige Sprache mit Gemini 2.5 Flash.",
+  "name": "Deutsch-KI",
+  "description": "AI-powered German voice synthesis with Gemini 2.5 Flash TTS, OCR scanning, and real-time dictation.",
   "requestFramePermissions": [
     "microphone",
     "camera"
